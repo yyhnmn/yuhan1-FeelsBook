@@ -20,7 +20,15 @@ public class HistoryList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_list);
+        listView = (ListView)findViewById(R.id.listView1);
         Intent intent = getIntent();
+    }
+    public void onStart(){
+        super.onStart();
+        String[] tweets = loadFromFile();
+        
+    }
 
+    private String[] loadFromFile() {
     }
 }
