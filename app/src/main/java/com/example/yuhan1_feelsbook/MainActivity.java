@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -42,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 saveInFile(saveText, new Date(System.currentTimeMillis()));
-                finish();
             }
         });
     }
+
 
     private void saveInFile(String text, Date date) {
         try {
