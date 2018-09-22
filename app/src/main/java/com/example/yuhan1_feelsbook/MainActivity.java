@@ -22,11 +22,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.text.ParseException;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
         updateTextView();
     }
 
-    private void saveInFile(String text, Date date) {
+    private void saveInFile(String text,String date) {
         try {
             FileOutputStream fos = openFileOutput(FILENAME,Context.MODE_APPEND);
-            String content = date.toString()+" | " + text;
+            String content = date +" | " + text;
             fos.write(content.getBytes());
             fos.write("\r\n".getBytes());
             fos.close();
@@ -97,10 +99,19 @@ public class MainActivity extends AppCompatActivity {
                 comment = commentInput.getText().toString();
                 saveText = selectedEmotion+" | " + comment;
                 setResult(RESULT_OK);
-                saveInFile(saveText, new Date(System.currentTimeMillis()));
+                String date = getDate();
+                saveInFile(saveText,date);
                 updateTextView();
             }
         });
+    }
+
+    public String getDate(){
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        dateformat.setTimeZone(tz);
+        String nowAsISO = dateformat.format(new Date());
+        return nowAsISO;
     }
 
     public void history(View view) {
