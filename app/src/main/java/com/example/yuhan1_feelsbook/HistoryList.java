@@ -1,6 +1,7 @@
 package com.example.yuhan1_feelsbook;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,14 +16,17 @@ import android.widget.ListView;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class HistoryList extends AppCompatActivity {
-    private static final String FILENAME = "file3.sav";
+    private static final String FILENAME = "fileContent.sav";
+    private static final String CFILENAME = "fileCounter.sav";
     private ListView listView;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> feelings;
@@ -37,6 +41,10 @@ public class HistoryList extends AppCompatActivity {
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
+        listViewFunc();
+    }
+
+    public void listViewFunc(){
         feelings = loadFromFile();
         adapter = new ArrayAdapter<String>(HistoryList.this,R.layout.itemlayout,feelings);
         listView.setAdapter(adapter);
@@ -59,6 +67,7 @@ public class HistoryList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 feelings.set(index , edittext1.getText().toString());
+                saveInFile(feelings);
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
@@ -67,6 +76,7 @@ public class HistoryList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 feelings.remove(index);
+                saveInFile(feelings);
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
@@ -89,5 +99,20 @@ public class HistoryList extends AppCompatActivity {
             e.printStackTrace();
         }
         return feelings;
+    }
+    private void saveInFile(ArrayList<String> list) {
+        deleteFile(FILENAME);
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_APPEND);
+            for(String text:list){
+                fos.write(text.getBytes());
+                fos.write("\r\n".getBytes());
+            }
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
