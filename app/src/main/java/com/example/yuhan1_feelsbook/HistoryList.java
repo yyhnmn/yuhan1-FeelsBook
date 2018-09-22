@@ -23,56 +23,66 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HistoryList extends AppCompatActivity {
-    private static final String FILENAME = "fileContent.sav";
-    private static final String CFILENAME = "fileCounter.sav";
-    private ListView listView;
+    private static final String FILENAME = "fileContent1.sav";
     private ArrayAdapter<String> adapter;
     private ArrayList<String> feelings;
+    private int loveCount;
+    private int joyCount;
+    private int surpriseCount;
+    private int angerCount;
+    private int sadnessCount;
+    private int fearCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_list);
         Intent intent = getIntent();
-        listView = (ListView)findViewById(R.id.listView1);
+
 
     }
+
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
         listViewFunc();
     }
 
-    public void listViewFunc(){
+    public void listViewFunc() {
+        ListView listView = (ListView) findViewById(R.id.listView1);
         feelings = loadFromFile();
-        adapter = new ArrayAdapter<String>(HistoryList.this,R.layout.itemlayout,feelings);
+        adapter = new ArrayAdapter<String>(HistoryList.this, R.layout.itemlayout, feelings);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showEditbox(feelings.get(position),position);
+                showEditbox(feelings.get(position), position);
             }
         });
     }
-    public void showEditbox(String oldItem, final int index){
+
+    public void showEditbox(String oldItem, final int index) {
         final Dialog dialog = new Dialog(HistoryList.this);
         dialog.setTitle("editbox");
         dialog.setContentView(R.layout.editbox);
-        final EditText edittext1 = (EditText)dialog.findViewById(R.id.editText1);
+        final EditText edittext1 = (EditText) dialog.findViewById(R.id.editText1);
         edittext1.setText(oldItem);
-        Button editbutton = (Button)dialog.findViewById(R.id.editbutton);
-        Button deletebutton = (Button)dialog.findViewById(R.id.deletebutton);
-        editbutton.setOnClickListener(new View.OnClickListener(){
+        Button editbutton = (Button) dialog.findViewById(R.id.editbutton);
+        Button deletebutton = (Button) dialog.findViewById(R.id.deletebutton);
+        editbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                feelings.set(index , edittext1.getText().toString());
+                feelings.set(index, edittext1.getText().toString());
                 saveInFile(feelings);
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
         });
-        deletebutton.setOnClickListener(new View.OnClickListener(){
+        deletebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 feelings.remove(index);
@@ -84,27 +94,30 @@ public class HistoryList extends AppCompatActivity {
         dialog.show();
     }
 
+
     private ArrayList<String> loadFromFile() {
         feelings = new ArrayList<String>();
-        try{
+        try {
             FileInputStream fis = openFileInput(FILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             String line = null;
-            while ((line = in.readLine()) !=null){
+            while ((line = in.readLine()) != null) {
                 feelings.add(line);
             }
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return feelings;
+
     }
+
     private void saveInFile(ArrayList<String> list) {
         deleteFile(FILENAME);
         try {
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_APPEND);
-            for(String text:list){
+            for (String text : list) {
                 fos.write(text.getBytes());
                 fos.write("\r\n".getBytes());
             }
@@ -115,4 +128,6 @@ public class HistoryList extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
 }

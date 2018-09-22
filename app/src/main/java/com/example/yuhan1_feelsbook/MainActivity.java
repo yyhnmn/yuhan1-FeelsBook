@@ -31,12 +31,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String FILENAME = "fileContent.sav";
-    private static final String CFILENAME = "fileCounter.sav";
+    private static final String FILENAME = "fileContent1.sav";
     private EditText commentInput;
     private Spinner spinner;
     private String saveText;
     private String comment;
+    private ArrayList<String> feelings;
     private int loveCount;
     private int joyCount;
     private int surpriseCount;
@@ -48,20 +48,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loadFromCFile();
-        setTextView();
         adder();
     }
-    private void setTextView(){
-        TextView counterView = (TextView)findViewById(R.id.counterView);
-
-        counterView.setText("love: "+ loveCount+ "\n" +
-                            "joy: "+ joyCount+ "\n" +
-                            "surprise: "+ surpriseCount+ "\n" +
-                            "anger: "+ angerCount+ "\n" +
-                            "sadness: "+ sadnessCount+ "\n" +
-                            "fear: "+ fearCount);
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+        updateTextView();
     }
+
     private void saveInFile(String text, Date date) {
         try {
             FileOutputStream fos = openFileOutput(FILENAME,Context.MODE_APPEND);
@@ -75,15 +69,24 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    public static int countNumber(String src, String findText){
-        int count = 0;
-        Pattern p = Pattern.compile(findText);
-        Matcher m = p.matcher(src);
-        while(m.find()){
-            count++;
+    private ArrayList<String> loadFromFile() {
+        feelings = new ArrayList<String>();
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                feelings.add(line);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return count;
+        return feelings;
     }
+
+
     public void adder(){
         Button addEmotion = (Button) findViewById(R.id.adder);
         addEmotion.setOnClickListener(new View.OnClickListener() {
@@ -95,9 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 saveText = selectedEmotion+" | " + comment;
                 setResult(RESULT_OK);
                 saveInFile(saveText, new Date(System.currentTimeMillis()));
-                saveInCFile(selectedEmotion);
-                loadFromCFile();
-                setTextView();
+                updateTextView();
             }
         });
     }
@@ -109,43 +110,94 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void loadFromCFile() {
-        String emotions;
-        try {
-            FileInputStream fis = openFileInput(CFILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            emotions = in.readLine();
-            loveCount = countNumber(emotions, "love");
-            joyCount = countNumber(emotions, "joy");
-            surpriseCount = countNumber(emotions, "surprise");
-            angerCount = countNumber(emotions, "anger");
-            sadnessCount = countNumber(emotions, "sadness");
-            fearCount = countNumber(emotions, "fear");
-        } catch (FileNotFoundException e) {
-            loveCount =0;
-            joyCount =0;
-            surpriseCount=0;
-            angerCount=0;
-            sadnessCount=0;
-            fearCount=0;
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void updateCounter(String text){
+        feelings = loadFromFile();
+        int count = 0;
+        for(String line:feelings){
+            Pattern p = Pattern.compile(text);
+            Matcher m = p.matcher(line);
+            while(m.find()){
+                count++;
+                break;
+            }
         }
-
-    }
-
-    private void saveInCFile(String text){
-        try {
-            FileOutputStream fos = openFileOutput(CFILENAME,Context.MODE_APPEND);
-            fos.write(text.getBytes());
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(text.equals("love")){
+            loveCount=count;
+        }
+        else if(text.equals("joy")){
+            joyCount = count;
+        }
+        else if(text.equals("sadness")){
+            sadnessCount = count;
+        }
+        else if(text.equals("anger")){
+            angerCount = count;
+        }
+        else if(text.equals("surprise")){
+            surpriseCount = count;
+        }
+        else if(text.equals("fear")){
+            fearCount = count;
         }
     }
 
+    public void updateTextView(){
+        ArrayList<String> emotionList = new ArrayList<String>();
+        emotionList.add("love");
+        emotionList.add("joy");
+        emotionList.add("surprise");
+        emotionList.add("sadness");
+        emotionList.add("anger");
+        emotionList.add("fear");
+        for(String emotion:emotionList){
+            updateCounter(emotion);
+        }
+        setTextView();
+    }
 
+    public void setTextView(){
+        TextView counterView = (TextView)findViewById(R.id.counterView);
+        counterView.setText("love: "+ loveCount+ "\n" +
+                "joy: "+ joyCount+ "\n" +
+                "surprise: "+ surpriseCount+ "\n" +
+                "anger: "+ angerCount+ "\n" +
+                "sadness: "+ sadnessCount+ "\n" +
+                "fear: "+ fearCount);
+    }
+
+    public static int countNumber(String src, String findText){
+        int count = 0;
+        Pattern p = Pattern.compile(findText);
+        Matcher m = p.matcher(src);
+        while(m.find()){
+            count++;
+        }
+        return count;
+    }
+
+//    private void loadFromCFile() {
+//        String emotions;
+//        try {
+//            FileInputStream fis = openFileInput(CFILENAME);
+//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+//            emotions = in.readLine();
+//            loveCount = countNumber(emotions, "love");
+//            joyCount = countNumber(emotions, "joy");
+//            surpriseCount = countNumber(emotions, "surprise");
+//            angerCount = countNumber(emotions, "anger");
+//            sadnessCount = countNumber(emotions, "sadness");
+//            fearCount = countNumber(emotions, "fear");
+//        } catch (FileNotFoundException e) {
+//            loveCount =0;
+//            joyCount =0;
+//            surpriseCount=0;
+//            angerCount=0;
+//            sadnessCount=0;
+//            fearCount=0;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
 }
