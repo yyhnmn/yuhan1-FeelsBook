@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.text.ParseException;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String FILENAME = "file2.sav";
+    private static final String FILENAME = "file3.sav";
     private EditText commentInput;
     private EditText dateInput;
     private Spinner spinner;
@@ -41,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
                 spinner = (Spinner) findViewById(R.id.spinner1);
                 String selectedEmotion = spinner.getSelectedItem().toString();
                 comment = commentInput.getText().toString();
-                saveText = selectedEmotion+comment;
+                saveText = selectedEmotion+" | " + comment;
                 setResult(RESULT_OK);
-
+//                deleteFile(FILENAME);
                 saveInFile(saveText, new Date(System.currentTimeMillis()));
 
             }
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveInFile(String text, Date date) {
         try {
-            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_APPEND);
+            FileOutputStream fos = openFileOutput(FILENAME,Context.MODE_APPEND);
             String content = date.toString()+" | " + text;
             fos.write(content.getBytes());
             fos.write("\r\n".getBytes());
