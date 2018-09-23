@@ -110,8 +110,7 @@ public class MainActivity extends AppCompatActivity {
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         dateformat.setTimeZone(tz);
-        String nowAsISO = dateformat.format(new Date());
-        return nowAsISO;
+        return dateformat.format(new Date());
     }
 
     public void history(View view) {
@@ -125,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         feelings = loadFromFile();
         int count = 0;
         for(String line:feelings){
-            Pattern p = Pattern.compile(text);
+            Pattern p = Pattern.compile("\\| "+text+" \\|");
             Matcher m = p.matcher(line);
             while(m.find()){
                 count++;
@@ -176,15 +175,6 @@ public class MainActivity extends AppCompatActivity {
                 "fear: "+ fearCount);
     }
 
-    public static int countNumber(String src, String findText){
-        int count = 0;
-        Pattern p = Pattern.compile(findText);
-        Matcher m = p.matcher(src);
-        while(m.find()){
-            count++;
-        }
-        return count;
-    }
 
 //    private void loadFromCFile() {
 //        String emotions;
@@ -210,5 +200,35 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //
 //    }
+
+//    public void updateCounter(){
+//        feelings = loadFromFile();
+//        for(String line:feelings){
+//            Pattern p = Pattern.compile("\\| (.*?) \\|");
+//            Matcher m = p.matcher(line);
+//            while(m.find()){
+//                String getemotion = m.group(1);
+//                Log.i("getemotion",getemotion);
+//                if(getemotion.equals("love")){
+//                    loveCount++;
+//                }
+//                else if(getemotion.equals("joy")){
+//                    joyCount++;
+//                }
+//                else if(getemotion.equals("sadness")){
+//                    sadnessCount++;
+//                }
+//                else if(getemotion.equals("anger")){
+//                    angerCount++;
+//                }
+//                else if(getemotion.equals("surprise")){
+//                    surpriseCount++;
+//                }
+//                else if(getemotion.equals("fear")){
+//                    fearCount++;
+//                }
+//                break;
+//            }
+//        }
 
 }

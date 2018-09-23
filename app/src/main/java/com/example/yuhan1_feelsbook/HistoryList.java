@@ -76,6 +76,7 @@ public class HistoryList extends AppCompatActivity {
         editbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if(!(edittext1.getText().toString().matches("")))
                 feelings.set(index, edittext1.getText().toString());
                 saveInFile(feelings);
                 adapter.notifyDataSetChanged();
