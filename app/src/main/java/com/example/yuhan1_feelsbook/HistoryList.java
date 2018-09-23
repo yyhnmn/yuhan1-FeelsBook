@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -76,11 +78,17 @@ public class HistoryList extends AppCompatActivity {
         editbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(!(edittext1.getText().toString().matches("")))
-                feelings.set(index, edittext1.getText().toString());
-                saveInFile(feelings);
-                adapter.notifyDataSetChanged();
-                dialog.dismiss();
+                if((edittext1.getText().toString().matches("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2} \\| (love|sadness|joy|fear|anger|surprise) \\| .*?$"))) {
+                    feelings.set(index, edittext1.getText().toString());
+                    saveInFile(feelings);
+                    adapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+                else{
+                    Toast toast = Toast.makeText(getApplicationContext(),"input format is wrong\nsample inpu:\n2018-09-23T10:06:47 | anger | comment", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
+                }
             }
         });
         deletebutton.setOnClickListener(new View.OnClickListener() {
