@@ -10,62 +10,58 @@
         android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="@string/comment"
         android:inputType="text"
-        app:layout_constraintBaseline_toBaselineOf="@+id/spinner1"
         app:layout_constraintEnd_toStartOf="@+id/spinner1"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/spinner1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="72dp"
         android:layout_toEndOf="@id/comment"
         android:entries="@array/emotions"
-        app:layout_constraintBottom_toTopOf="@+id/adder"
+        app:layout_constraintBaseline_toBaselineOf="@+id/comment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/comment"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/comment" />
+
     <Button
         android:id="@+id/adder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
         android:text="@string/adder"
-        app:layout_constraintBottom_toTopOf="@+id/history"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner1" />
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comment" />
 
     <Button
         android:id="@+id/history"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:onClick="history"
+
         android:text="@string/history"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/adder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adder" />
+        app:layout_constraintStart_toEndOf="@+id/adder" />
+
     <TextView
         android:id="@+id/counterView"
-        android:layout_width="187dp"
-        android:layout_height="248dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="@string/counterView" />
 
 
