@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -44,8 +45,6 @@ public class HistoryList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_list);
         Intent intent = getIntent();
-
-
     }
 
     protected void onStart() {
@@ -57,6 +56,8 @@ public class HistoryList extends AppCompatActivity {
     public void listViewFunc() {
         ListView listView = (ListView) findViewById(R.id.listView1);
         feelings = loadFromFile();
+        SortDate sortDate = new SortDate();
+        Collections.sort(feelings,sortDate);
         adapter = new ArrayAdapter<String>(HistoryList.this, R.layout.itemlayout, feelings);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,6 +90,7 @@ public class HistoryList extends AppCompatActivity {
                     toast.setGravity(Gravity.CENTER,0,0);
                     toast.show();
                 }
+                listViewFunc();
             }
         });
         deletebutton.setOnClickListener(new View.OnClickListener() {

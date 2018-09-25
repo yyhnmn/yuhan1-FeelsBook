@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        adder();
     }
     protected void onStart() {
         // TODO Auto-generated method stub
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         updateTextView();
     }
 
+    // save data in file
     private void saveInFile(String text,String date) {
         try {
             FileOutputStream fos = openFileOutput(FILENAME,Context.MODE_APPEND);
@@ -71,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    private ArrayList<String> loadFromFile() {
+
+    //load data from file
+    public ArrayList<String> loadFromFile() {
         feelings = new ArrayList<String>();
         try {
             FileInputStream fis = openFileInput(FILENAME);
@@ -88,24 +90,6 @@ public class MainActivity extends AppCompatActivity {
         return feelings;
     }
 
-
-    public void adder(){
-        Button addEmotion = (Button) findViewById(R.id.adder);
-        addEmotion.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                commentInput = (EditText) findViewById(R.id.comment);
-                spinner = (Spinner) findViewById(R.id.spinner1);
-                String selectedEmotion = spinner.getSelectedItem().toString();
-                comment = commentInput.getText().toString();
-                saveText = selectedEmotion+" | " + comment;
-                setResult(RESULT_OK);
-                String date = getDate();
-                saveInFile(saveText,date);
-                updateTextView();
-            }
-        });
-    }
-
     public String getDate(){
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -117,6 +101,18 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HistoryList.class);
         intent.putExtra("test", "");
         startActivity(intent);
+    }
+
+    public void addemotion(View view){
+        commentInput = (EditText) findViewById(R.id.comment);
+        spinner = (Spinner) findViewById(R.id.spinner1);
+        String selectedEmotion = spinner.getSelectedItem().toString();
+        comment = commentInput.getText().toString();
+        saveText = selectedEmotion+" | " + comment;
+        setResult(RESULT_OK);
+        String date = getDate();
+        saveInFile(saveText,date);
+        updateTextView();
     }
 
 
@@ -159,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
         emotionList.add("sadness");
         emotionList.add("anger");
         emotionList.add("fear");
+
         for(String emotion:emotionList){
             updateCounter(emotion);
         }
@@ -174,61 +171,5 @@ public class MainActivity extends AppCompatActivity {
                 "sadness: "+ sadnessCount+ "\n" +
                 "fear: "+ fearCount);
     }
-
-
-//    private void loadFromCFile() {
-//        String emotions;
-//        try {
-//            FileInputStream fis = openFileInput(CFILENAME);
-//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-//            emotions = in.readLine();
-//            loveCount = countNumber(emotions, "love");
-//            joyCount = countNumber(emotions, "joy");
-//            surpriseCount = countNumber(emotions, "surprise");
-//            angerCount = countNumber(emotions, "anger");
-//            sadnessCount = countNumber(emotions, "sadness");
-//            fearCount = countNumber(emotions, "fear");
-//        } catch (FileNotFoundException e) {
-//            loveCount =0;
-//            joyCount =0;
-//            surpriseCount=0;
-//            angerCount=0;
-//            sadnessCount=0;
-//            fearCount=0;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
-
-//    public void updateCounter(){
-//        feelings = loadFromFile();
-//        for(String line:feelings){
-//            Pattern p = Pattern.compile("\\| (.*?) \\|");
-//            Matcher m = p.matcher(line);
-//            while(m.find()){
-//                String getemotion = m.group(1);
-//                Log.i("getemotion",getemotion);
-//                if(getemotion.equals("love")){
-//                    loveCount++;
-//                }
-//                else if(getemotion.equals("joy")){
-//                    joyCount++;
-//                }
-//                else if(getemotion.equals("sadness")){
-//                    sadnessCount++;
-//                }
-//                else if(getemotion.equals("anger")){
-//                    angerCount++;
-//                }
-//                else if(getemotion.equals("surprise")){
-//                    surpriseCount++;
-//                }
-//                else if(getemotion.equals("fear")){
-//                    fearCount++;
-//                }
-//                break;
-//            }
-//        }
 
 }

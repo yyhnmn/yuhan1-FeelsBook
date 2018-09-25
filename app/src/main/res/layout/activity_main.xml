@@ -38,8 +38,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="32dp"
-        android:text="@string/adder"
+        android:onClick="addemotion"
 
+        android:text="@string/adder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comment" />
 
