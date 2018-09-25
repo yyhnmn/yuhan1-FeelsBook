@@ -115,35 +115,9 @@ public class MainActivity extends AppCompatActivity {
             String date = getDate();
             saveInFile(saveText, date);
             updateTextView();
+            commentInput.setText("");
         } else {
             throw new CommentTooLongException();
-        }
-    }
-
-    // update the counter for each emotion
-    public void updateCounter(String text) {
-        feelings = loadFromFile();
-        int count = 0;
-        for (String line : feelings) {
-            Pattern p = Pattern.compile("\\| " + text + " \\|");
-            Matcher m = p.matcher(line);
-            while (m.find()) {
-                count++;
-                break;
-            }
-        }
-        if (text.equals("love")) {
-            loveCount = count;
-        } else if (text.equals("joy")) {
-            joyCount = count;
-        } else if (text.equals("sadness")) {
-            sadnessCount = count;
-        } else if (text.equals("anger")) {
-            angerCount = count;
-        } else if (text.equals("surprise")) {
-            surpriseCount = count;
-        } else if (text.equals("fear")) {
-            fearCount = count;
         }
     }
 
@@ -156,16 +130,43 @@ public class MainActivity extends AppCompatActivity {
         emotionList.add("sadness");
         emotionList.add("anger");
         emotionList.add("fear");
-
+        Counter counter = new Counter();
+        feelings = loadFromFile();
         for (String emotion : emotionList) {
-            updateCounter(emotion);
+            counter.getCountFromText(emotion,feelings);
         }
+
         TextView counterView = (TextView) findViewById(R.id.counterView);
-        counterView.setText("love: " + loveCount + "\n" +
-                "joy: " + joyCount + "\n" +
-                "surprise: " + surpriseCount + "\n" +
-                "anger: " + angerCount + "\n" +
-                "sadness: " + sadnessCount + "\n" +
-                "fear: " + fearCount);
+        counterView.setText("love: " + counter.getLoveCount() + "\n" +
+                "joy: " + counter.getJoyCount() + "\n" +
+                "surprise: " + counter.getSurpriseCount() + "\n" +
+                "anger: " + counter.getAngerCount() + "\n" +
+                "sadness: " + counter.getSadnessCount() + "\n" +
+                "fear: " + counter.getFearCount());
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
