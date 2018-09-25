@@ -3,6 +3,7 @@ package com.example.yuhan1_feelsbook;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// Tweet object which contains information of each feeling
 public class Tweet {
     private String date;
     private String emotion;

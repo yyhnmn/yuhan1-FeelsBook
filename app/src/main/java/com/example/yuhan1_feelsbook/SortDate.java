@@ -2,6 +2,7 @@ package com.example.yuhan1_feelsbook;
 
 import java.util.Comparator;
 
+// override compare method to help sort data using Collections.sort()
 public class SortDate implements Comparator {
     @Override
     public int compare(Object o1, Object o2) {

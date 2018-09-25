@@ -44,7 +44,6 @@ public class HistoryList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_list);
-        Intent intent = getIntent();
     }
 
     protected void onStart() {
@@ -53,11 +52,12 @@ public class HistoryList extends AppCompatActivity {
         listViewFunc();
     }
 
+    // show the history list of feelings
     public void listViewFunc() {
         ListView listView = (ListView) findViewById(R.id.listView1);
         feelings = loadFromFile();
         SortDate sortDate = new SortDate();
-        Collections.sort(feelings,sortDate);
+        Collections.sort(feelings, sortDate);
         adapter = new ArrayAdapter<String>(HistoryList.this, R.layout.itemlayout, feelings);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -68,6 +68,7 @@ public class HistoryList extends AppCompatActivity {
         });
     }
 
+    // Use dialog interface for editting and deleting feelings
     public void showEditbox(String oldItem, final int index) {
         final Dialog dialog = new Dialog(HistoryList.this);
         dialog.setTitle("editbox");
@@ -79,15 +80,14 @@ public class HistoryList extends AppCompatActivity {
         editbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((edittext1.getText().toString().matches("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2} \\| (love|sadness|joy|fear|anger|surprise) \\| .*?$"))) {
+                if ((edittext1.getText().toString().matches("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2} \\| (love|sadness|joy|fear|anger|surprise) \\| .*?$"))) {
                     feelings.set(index, edittext1.getText().toString());
                     saveInFile(feelings);
                     adapter.notifyDataSetChanged();
                     dialog.dismiss();
-                }
-                else{
-                    Toast toast = Toast.makeText(getApplicationContext(),"input format is wrong\nsample inpu:\n2018-09-23T10:06:47 | anger | comment", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER,0,0);
+                } else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "input format is wrong\nsample inpu:\n2018-09-23T10:06:47 | anger | comment", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 }
                 listViewFunc();
@@ -105,7 +105,7 @@ public class HistoryList extends AppCompatActivity {
         dialog.show();
     }
 
-
+    // load data from file
     private ArrayList<String> loadFromFile() {
         feelings = new ArrayList<String>();
         try {
@@ -124,6 +124,7 @@ public class HistoryList extends AppCompatActivity {
 
     }
 
+    // save data in file
     private void saveInFile(ArrayList<String> list) {
         deleteFile(FILENAME);
         try {

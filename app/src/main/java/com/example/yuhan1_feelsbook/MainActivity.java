@@ -34,10 +34,6 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private static final String FILENAME = "fileContent1.sav";
-    private EditText commentInput;
-    private Spinner spinner;
-    private String saveText;
-    private String comment;
     private ArrayList<String> feelings;
     private int loveCount;
     private int joyCount;
@@ -45,12 +41,14 @@ public class MainActivity extends AppCompatActivity {
     private int angerCount;
     private int sadnessCount;
     private int fearCount;
+    private static final Integer MAX_CHARS = 140;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
@@ -58,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // save data in file
-    private void saveInFile(String text,String date) {
+    private void saveInFile(String text, String date) {
         try {
-            FileOutputStream fos = openFileOutput(FILENAME,Context.MODE_APPEND);
-            String content = date +" | " + text;
+            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_APPEND);
+            String content = date + " | " + text;
             fos.write(content.getBytes());
             fos.write("\r\n".getBytes());
             fos.close();
@@ -72,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //load data from file
-    public ArrayList<String> loadFromFile() {
+    // load data from file
+    private ArrayList<String> loadFromFile() {
         feelings = new ArrayList<String>();
         try {
             FileInputStream fis = openFileInput(FILENAME);
@@ -90,64 +88,67 @@ public class MainActivity extends AppCompatActivity {
         return feelings;
     }
 
-    public String getDate(){
+    // get current date in ISO8601 format
+    public String getDate() {
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         dateformat.setTimeZone(tz);
         return dateformat.format(new Date());
     }
 
+    // click on HISTORY button to start HistoryList Activity
     public void history(View view) {
         Intent intent = new Intent(this, HistoryList.class);
         intent.putExtra("test", "");
         startActivity(intent);
     }
 
-    public void addemotion(View view){
-        commentInput = (EditText) findViewById(R.id.comment);
-        spinner = (Spinner) findViewById(R.id.spinner1);
+    // click on ADD A EMOTION button to add a emotion
+    public void addemotion(View view) throws CommentTooLongException {
+        EditText commentInput = (EditText) findViewById(R.id.comment);
+        Spinner spinner = (Spinner) findViewById(R.id.spinner1);
         String selectedEmotion = spinner.getSelectedItem().toString();
-        comment = commentInput.getText().toString();
-        saveText = selectedEmotion+" | " + comment;
-        setResult(RESULT_OK);
-        String date = getDate();
-        saveInFile(saveText,date);
-        updateTextView();
+        String comment = commentInput.getText().toString();
+        if (comment.length() <= this.MAX_CHARS) {
+            String saveText = selectedEmotion + " | " + comment;
+            setResult(RESULT_OK);
+            String date = getDate();
+            saveInFile(saveText, date);
+            updateTextView();
+        } else {
+            throw new CommentTooLongException();
+        }
     }
 
-
-    public void updateCounter(String text){
+    // update the counter for each emotion
+    public void updateCounter(String text) {
         feelings = loadFromFile();
         int count = 0;
-        for(String line:feelings){
-            Pattern p = Pattern.compile("\\| "+text+" \\|");
+        for (String line : feelings) {
+            Pattern p = Pattern.compile("\\| " + text + " \\|");
             Matcher m = p.matcher(line);
-            while(m.find()){
+            while (m.find()) {
                 count++;
                 break;
             }
         }
-        if(text.equals("love")){
-            loveCount=count;
-        }
-        else if(text.equals("joy")){
+        if (text.equals("love")) {
+            loveCount = count;
+        } else if (text.equals("joy")) {
             joyCount = count;
-        }
-        else if(text.equals("sadness")){
+        } else if (text.equals("sadness")) {
             sadnessCount = count;
-        }
-        else if(text.equals("anger")){
+        } else if (text.equals("anger")) {
             angerCount = count;
-        }
-        else if(text.equals("surprise")){
+        } else if (text.equals("surprise")) {
             surpriseCount = count;
-        }
-        else if(text.equals("fear")){
+        } else if (text.equals("fear")) {
             fearCount = count;
         }
     }
 
-    public void updateTextView(){
+    // update textview for counter of each emotion
+    public void updateTextView() {
         ArrayList<String> emotionList = new ArrayList<String>();
         emotionList.add("love");
         emotionList.add("joy");
@@ -156,20 +157,15 @@ public class MainActivity extends AppCompatActivity {
         emotionList.add("anger");
         emotionList.add("fear");
 
-        for(String emotion:emotionList){
+        for (String emotion : emotionList) {
             updateCounter(emotion);
         }
-        setTextView();
+        TextView counterView = (TextView) findViewById(R.id.counterView);
+        counterView.setText("love: " + loveCount + "\n" +
+                "joy: " + joyCount + "\n" +
+                "surprise: " + surpriseCount + "\n" +
+                "anger: " + angerCount + "\n" +
+                "sadness: " + sadnessCount + "\n" +
+                "fear: " + fearCount);
     }
-
-    public void setTextView(){
-        TextView counterView = (TextView)findViewById(R.id.counterView);
-        counterView.setText("love: "+ loveCount+ "\n" +
-                "joy: "+ joyCount+ "\n" +
-                "surprise: "+ surpriseCount+ "\n" +
-                "anger: "+ angerCount+ "\n" +
-                "sadness: "+ sadnessCount+ "\n" +
-                "fear: "+ fearCount);
-    }
-
 }
