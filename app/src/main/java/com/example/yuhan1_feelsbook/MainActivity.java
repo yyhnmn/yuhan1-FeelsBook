@@ -6,42 +6,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.text.ParseException;
 import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class MainActivity extends AppCompatActivity {
     private static final String FILENAME = "fileContent1.sav";
     private ArrayList<String> feelings;
-    private int loveCount;
-    private int joyCount;
-    private int surpriseCount;
-    private int angerCount;
-    private int sadnessCount;
-    private int fearCount;
-    private static final Integer MAX_CHARS = 140;
+    private static final Integer MAX_CHARS = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // save data in file
+    // from LonelyTwitter https://github.com/joshua2ua/lonelyTwitter Joshua Charles Campbell
     private void saveInFile(String text, String date) {
         try {
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_APPEND);
@@ -71,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // load data from file
+    // from LonelyTwitter https://github.com/joshua2ua/lonelyTwitter Joshua Charles Campbell
     private ArrayList<String> loadFromFile() {
         feelings = new ArrayList<String>();
         try {
@@ -103,14 +89,92 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // click on ADD A EMOTION button to add a emotion
-    public void addemotion(View view) throws CommentTooLongException {
+    public void addJoy(View view) throws CommentTooLongException{
         EditText commentInput = (EditText) findViewById(R.id.comment);
-        Spinner spinner = (Spinner) findViewById(R.id.spinner1);
-        String selectedEmotion = spinner.getSelectedItem().toString();
+        String emotion = "joy";
         String comment = commentInput.getText().toString();
         if (comment.length() <= this.MAX_CHARS) {
-            String saveText = selectedEmotion + " | " + comment;
+            String saveText =  emotion + " | " + comment;
+            setResult(RESULT_OK);
+            String date = getDate();
+            saveInFile(saveText, date);
+            updateTextView();
+            commentInput.setText("");
+        } else {
+            throw new CommentTooLongException();
+        }
+    }
+
+    public void addLove(View view) throws CommentTooLongException{
+        EditText commentInput = (EditText) findViewById(R.id.comment);
+        String emotion = "love";
+        String comment = commentInput.getText().toString();
+        if (comment.length() <= this.MAX_CHARS) {
+            String saveText =  emotion + " | " + comment;
+            setResult(RESULT_OK);
+            String date = getDate();
+            saveInFile(saveText, date);
+            updateTextView();
+            commentInput.setText("");
+        } else {
+            throw new CommentTooLongException();
+        }
+    }
+
+    public void addSurprise(View view) throws CommentTooLongException{
+        EditText commentInput = (EditText) findViewById(R.id.comment);
+        String emotion = "surprise";
+        String comment = commentInput.getText().toString();
+        if (comment.length() <= this.MAX_CHARS) {
+            String saveText =  emotion + " | " + comment;
+            setResult(RESULT_OK);
+            String date = getDate();
+            saveInFile(saveText, date);
+            updateTextView();
+            commentInput.setText("");
+        } else {
+            throw new CommentTooLongException();
+        }
+    }
+
+    public void addAnger(View view) throws CommentTooLongException{
+        EditText commentInput = (EditText) findViewById(R.id.comment);
+        String emotion = "anger";
+        String comment = commentInput.getText().toString();
+        if (comment.length() <= this.MAX_CHARS) {
+            String saveText =  emotion + " | " + comment;
+            setResult(RESULT_OK);
+            String date = getDate();
+            saveInFile(saveText, date);
+            updateTextView();
+            commentInput.setText("");
+        } else {
+            throw new CommentTooLongException();
+        }
+    }
+
+    public void addFear(View view) throws CommentTooLongException{
+        EditText commentInput = (EditText) findViewById(R.id.comment);
+        String emotion = "fear";
+        String comment = commentInput.getText().toString();
+        if (comment.length() <= this.MAX_CHARS) {
+            String saveText =  emotion + " | " + comment;
+            setResult(RESULT_OK);
+            String date = getDate();
+            saveInFile(saveText, date);
+            updateTextView();
+            commentInput.setText("");
+        } else {
+            throw new CommentTooLongException();
+        }
+    }
+
+    public void addSadness(View view) throws CommentTooLongException{
+        EditText commentInput = (EditText) findViewById(R.id.comment);
+        String emotion = "sadness";
+        String comment = commentInput.getText().toString();
+        if (comment.length() <= this.MAX_CHARS) {
+            String saveText =  emotion + " | " + comment;
             setResult(RESULT_OK);
             String date = getDate();
             saveInFile(saveText, date);
@@ -135,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
         for (String emotion : emotionList) {
             counter.getCountFromText(emotion,feelings);
         }
-
         TextView counterView = (TextView) findViewById(R.id.counterView);
         counterView.setText("love: " + counter.getLoveCount() + "\n" +
                 "joy: " + counter.getJoyCount() + "\n" +
