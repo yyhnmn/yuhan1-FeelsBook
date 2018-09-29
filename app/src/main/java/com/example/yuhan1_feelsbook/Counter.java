@@ -22,27 +22,27 @@ public class Counter {
     private int sadnessCount;
     private int fearCount;
 
-    public void getCountFromText(String text, ArrayList<String> feelings){
+    public void getCountFromText(String emotion, ArrayList<String> tweets){
         int count = 0;
-        for (String line : feelings) {
-            Pattern p = Pattern.compile("\\| " + text + " \\|");
+        for (String line : tweets) {
+            Pattern p = Pattern.compile("\\| " + emotion + " \\|");
             Matcher m = p.matcher(line);
             while (m.find()) {
                 count++;
                 break;
             }
         }
-        if (text.equals("love")) {
+        if (emotion.equals("love")) {
             loveCount = count;
-        } else if (text.equals("joy")) {
+        } else if (emotion.equals("joy")) {
             joyCount = count;
-        } else if (text.equals("sadness")) {
+        } else if (emotion.equals("sadness")) {
             sadnessCount = count;
-        } else if (text.equals("anger")) {
+        } else if (emotion.equals("anger")) {
             angerCount = count;
-        } else if (text.equals("surprise")) {
+        } else if (emotion.equals("surprise")) {
             surpriseCount = count;
-        } else if (text.equals("fear")) {
+        } else if (emotion.equals("fear")) {
             fearCount = count;
         }
     }

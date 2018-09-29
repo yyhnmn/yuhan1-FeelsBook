@@ -2,7 +2,6 @@ package com.example.yuhan1_feelsbook;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,23 +20,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class HistoryList extends AppCompatActivity {
     private static final String FILENAME = "fileContent1.sav";
     private ArrayAdapter<String> adapter;
-    private ArrayList<String> feelings;
-    private int loveCount;
-    private int joyCount;
-    private int surpriseCount;
-    private int angerCount;
-    private int sadnessCount;
-    private int fearCount;
+    private ArrayList<String> tweets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +43,15 @@ public class HistoryList extends AppCompatActivity {
     // show the history list of feelings
     public void listViewFunc() {
         ListView listView = (ListView) findViewById(R.id.listView1);
-        feelings = loadFromFile();
+        tweets = loadFromFile();
         SortDate sortDate = new SortDate();
-        Collections.sort(feelings, sortDate);
-        adapter = new ArrayAdapter<String>(HistoryList.this, R.layout.itemlayout, feelings);
+        Collections.sort(tweets, sortDate);
+        adapter = new ArrayAdapter<String>(HistoryList.this, R.layout.itemlayout, tweets);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showEditbox(feelings.get(position), position);
+                showEditbox(tweets.get(position), position);
             }
         });
     }
@@ -81,8 +69,8 @@ public class HistoryList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if ((edittext1.getText().toString().matches("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2} \\| (love|sadness|joy|fear|anger|surprise) \\| .*?$"))) {
-                    feelings.set(index, edittext1.getText().toString());
-                    saveInFile(feelings);
+                    tweets.set(index, edittext1.getText().toString());
+                    saveInFile(tweets);
                     adapter.notifyDataSetChanged();
                     dialog.dismiss();
                 } else {
@@ -96,8 +84,8 @@ public class HistoryList extends AppCompatActivity {
         deletebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                feelings.remove(index);
-                saveInFile(feelings);
+                tweets.remove(index);
+                saveInFile(tweets);
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
@@ -106,25 +94,27 @@ public class HistoryList extends AppCompatActivity {
     }
 
     // load data from file
+    // from LonelyTwitter https://github.com/joshua2ua/lonelyTwitter Joshua Charles Campbell
     private ArrayList<String> loadFromFile() {
-        feelings = new ArrayList<String>();
+        tweets = new ArrayList<String>();
         try {
             FileInputStream fis = openFileInput(FILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             String line = null;
             while ((line = in.readLine()) != null) {
-                feelings.add(line);
+                tweets.add(line);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return feelings;
+        return tweets;
 
     }
 
     // save data in file
+    // from LonelyTwitter https://github.com/joshua2ua/lonelyTwitter Joshua Charles Campbell
     private void saveInFile(ArrayList<String> list) {
         deleteFile(FILENAME);
         try {
