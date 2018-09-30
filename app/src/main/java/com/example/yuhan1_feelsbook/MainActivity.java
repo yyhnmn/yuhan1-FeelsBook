@@ -24,7 +24,7 @@ import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
     private static final String FILENAME = "fileContent1.sav";
-    private ArrayList<String> feelings;
+    private ArrayList<String> tweets;
     private static final Integer MAX_CHARS = 100;
 
     @Override
@@ -58,20 +58,20 @@ public class MainActivity extends AppCompatActivity {
     // load data from file
     // from LonelyTwitter https://github.com/joshua2ua/lonelyTwitter Joshua Charles Campbell
     private ArrayList<String> loadFromFile() {
-        feelings = new ArrayList<String>();
+        tweets = new ArrayList<String>();
         try {
             FileInputStream fis = openFileInput(FILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             String line = null;
             while ((line = in.readLine()) != null) {
-                feelings.add(line);
+                tweets.add(line);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return feelings;
+        return tweets;
     }
 
     // get current date in ISO8601 format
@@ -195,9 +195,9 @@ public class MainActivity extends AppCompatActivity {
         emotionList.add("anger");
         emotionList.add("fear");
         Counter counter = new Counter();
-        feelings = loadFromFile();
+        tweets = loadFromFile();
         for (String emotion : emotionList) {
-            counter.getCountFromText(emotion,feelings);
+            counter.getCountFromText(emotion,tweets);
         }
         TextView counterView = (TextView) findViewById(R.id.counterView);
         counterView.setText("love: " + counter.getLoveCount() + "\n" +

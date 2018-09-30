@@ -6,41 +6,95 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/addSadness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:onClick="addSadness"
+        android:text="@string/addSadness"
+        app:layout_constraintEnd_toStartOf="@+id/addFear"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addSurprise" />
+
+    <Button
+        android:id="@+id/addFear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:onClick="addFear"
+        android:text="@string/addFear"
+        app:layout_constraintBaseline_toBaselineOf="@+id/addSadness"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/addSadness" />
+
+    <Button
+        android:id="@+id/addAnger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:onClick="addAnger"
+        android:text="@string/addAnger"
+        app:layout_constraintBaseline_toBaselineOf="@+id/addSurprise"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/addSurprise" />
+
+    <Button
+        android:id="@+id/addSurprise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:onClick="addSurprise"
+        android:text="@string/addSurprise"
+        app:layout_constraintEnd_toStartOf="@+id/addAnger"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addJoy" />
+
+    <Button
+        android:id="@+id/addLove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:onClick="addLove"
+        android:text="@string/addLove"
+        app:layout_constraintBaseline_toBaselineOf="@+id/addJoy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/addJoy" />
+
     <EditText
         android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/comment"
         android:inputType="text"
-        app:layout_constraintEnd_toStartOf="@+id/spinner1"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_toEndOf="@id/comment"
-        android:entries="@array/emotions"
-        app:layout_constraintBaseline_toBaselineOf="@+id/comment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/comment" />
-
     <Button
-        android:id="@+id/adder"
+        android:id="@+id/addJoy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="32dp"
-        android:onClick="addemotion"
 
-        android:text="@string/adder"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:onClick="addJoy"
+        android:text="@string/addJoy"
+        app:layout_constraintEnd_toStartOf="@+id/addLove"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comment" />
 
@@ -48,13 +102,13 @@
         android:id="@+id/history"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:onClick="history"
+        android:layout_marginBottom="8dp"
 
+        android:layout_marginStart="16dp"
+        android:onClick="history"
         android:text="@string/history"
-        app:layout_constraintBaseline_toBaselineOf="@+id/adder"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/adder" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/counterView"

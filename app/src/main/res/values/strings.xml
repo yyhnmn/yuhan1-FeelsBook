@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">yuhan1-Feelsbook</string>
-    <string name="adder">Add a emotion</string>
+    <string name="addJoy">Joy</string>
+    <string name="addLove">Love</string>
+    <string name="addAnger">Anger</string>
+    <string name="addSadness">Sadness</string>
+    <string name="addFear">Fear</string>
+    <string name="addSurprise">Surprise</string>
     <string name="counter">counter</string>
     <string name="itemView"></string>
     <string name="history">History</string>
     <string name="comment">Optional Comment</string>
-    <string name="spinner1">Select a emotion</string>
     <string name="editbutton">Edit</string>
     <string name="deletebutton">Delete</string>
     <string name="editText1"></string>
