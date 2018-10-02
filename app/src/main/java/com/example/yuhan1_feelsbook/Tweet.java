@@ -16,11 +16,6 @@ public class Tweet {
             this.date = m.group();
         }
     }
-    Tweet(String date,String emotion, String comment){
-        this.date = date;
-        this.emotion = emotion;
-        this.comment = comment;
-    }
 
     public void setDate(String date) {
         this.date = date;
@@ -28,14 +23,6 @@ public class Tweet {
 
     public String getDate() {
         return date;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public void setEmotion(String emotion) {
-        this.emotion = emotion;
     }
 
     public String getComment() {

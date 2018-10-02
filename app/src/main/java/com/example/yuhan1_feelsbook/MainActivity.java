@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,7 +27,7 @@ import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
     private static final String FILENAME = "fileContent1.sav";
-    private ArrayList<String> feelings;
+    private ArrayList<String> tweets;
     private static final Integer MAX_CHARS = 100;
 
     @Override
@@ -58,20 +61,20 @@ public class MainActivity extends AppCompatActivity {
     // load data from file
     // from LonelyTwitter https://github.com/joshua2ua/lonelyTwitter Joshua Charles Campbell
     private ArrayList<String> loadFromFile() {
-        feelings = new ArrayList<String>();
+        tweets = new ArrayList<String>();
         try {
             FileInputStream fis = openFileInput(FILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             String line = null;
             while ((line = in.readLine()) != null) {
-                feelings.add(line);
+                tweets.add(line);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return feelings;
+        return tweets;
     }
 
     // get current date in ISO8601 format
@@ -100,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
             saveInFile(saveText, date);
             updateTextView();
             commentInput.setText("");
+            Toast toast = Toast.makeText(getApplicationContext(), "Joy emotion added", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM, 0, 0);
+            toast.show();
         } else {
             throw new CommentTooLongException();
         }
@@ -116,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
             saveInFile(saveText, date);
             updateTextView();
             commentInput.setText("");
+            Toast toast = Toast.makeText(getApplicationContext(), "Love emotion added", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM, 0, 0);
+            toast.show();
         } else {
             throw new CommentTooLongException();
         }
@@ -132,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
             saveInFile(saveText, date);
             updateTextView();
             commentInput.setText("");
+            Toast toast = Toast.makeText(getApplicationContext(), "Surprise emotion added", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM, 0, 0);
+            toast.show();
         } else {
             throw new CommentTooLongException();
         }
@@ -148,6 +160,9 @@ public class MainActivity extends AppCompatActivity {
             saveInFile(saveText, date);
             updateTextView();
             commentInput.setText("");
+            Toast toast = Toast.makeText(getApplicationContext(), "Anger emotion added", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM, 0, 0);
+            toast.show();
         } else {
             throw new CommentTooLongException();
         }
@@ -164,6 +179,9 @@ public class MainActivity extends AppCompatActivity {
             saveInFile(saveText, date);
             updateTextView();
             commentInput.setText("");
+            Toast toast = Toast.makeText(getApplicationContext(), "Fear emotion added", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM, 0, 0);
+            toast.show();
         } else {
             throw new CommentTooLongException();
         }
@@ -180,10 +198,14 @@ public class MainActivity extends AppCompatActivity {
             saveInFile(saveText, date);
             updateTextView();
             commentInput.setText("");
+            Toast toast = Toast.makeText(getApplicationContext(), "Sadness emotion added", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM, 0, 0);
+            toast.show();
         } else {
             throw new CommentTooLongException();
         }
     }
+
 
     // update textview for counter of each emotion
     public void updateTextView() {
@@ -195,9 +217,9 @@ public class MainActivity extends AppCompatActivity {
         emotionList.add("anger");
         emotionList.add("fear");
         Counter counter = new Counter();
-        feelings = loadFromFile();
+        tweets = loadFromFile();
         for (String emotion : emotionList) {
-            counter.getCountFromText(emotion,feelings);
+            counter.getCountFromText(emotion,tweets);
         }
         TextView counterView = (TextView) findViewById(R.id.counterView);
         counterView.setText("love: " + counter.getLoveCount() + "\n" +
