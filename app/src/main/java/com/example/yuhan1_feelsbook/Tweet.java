@@ -9,9 +9,9 @@ public class Tweet {
     private String emotion;
     private String comment;
 
-    Tweet(String line){
+    Tweet(String text){
         Pattern p = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}");
-        Matcher m = p.matcher(line);
+        Matcher m = p.matcher(text);
         while(m.find()){
             this.date = m.group();
         }
@@ -22,21 +22,11 @@ public class Tweet {
         this.comment = comment;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String getDate() {
         return date;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
 
-    public void setEmotion(String emotion) {
-        this.emotion = emotion;
-    }
 
     public String getComment() {
         return comment;
