@@ -3,6 +3,7 @@ package com.example.yuhan1_feelsbook;
 import java.util.Comparator;
 
 // override compare method to help sort data using Collections.sort()
+// from https://stackoverflow.com/questions/5927109/sort-objects-in-arraylist-by-date May 8 '11 at 12:29 Domchi
 public class SortDate implements Comparator {
     @Override
     public int compare(Object o1, Object o2) {

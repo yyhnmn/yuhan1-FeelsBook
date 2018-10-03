@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // get current date in ISO8601 format
+    // from https://stackoverflow.com/questions/2201925/converting-iso-8601-compliant-string-to-java-util-date  Apr 8 '14 at 14:20 d.danailov
     public String getDate() {
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");

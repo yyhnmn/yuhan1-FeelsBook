@@ -27,6 +27,7 @@ public class HistoryList extends AppCompatActivity {
     private static final String FILENAME = "fileContent1.sav";
     private ArrayAdapter<String> adapter;
     private ArrayList<String> tweets;
+    private static final Integer MAX_CHARS = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class HistoryList extends AppCompatActivity {
         editbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((edittext1.getText().toString().matches("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2} \\| (love|sadness|joy|fear|anger|surprise) \\| .*?$"))) {
+                if ((edittext1.getText().toString().length() < MAX_CHARS )&&(edittext1.getText().toString().matches("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2} \\| (love|sadness|joy|fear|anger|surprise) \\| .*?$"))) {
                     tweets.set(index, edittext1.getText().toString());
                     saveInFile(tweets);
                     adapter.notifyDataSetChanged();
