@@ -2,7 +2,7 @@
 This mobile app is developed to record feelings.
 
 adb install app\build\outputs\apk\app-debug.apk in root file to install the apk
-or adb -s [device id] install -r app\build\outputs\apk
+or adb -s [device id] install -r app\build\outputs\apk\app-debug.apk
 
 loadFromFile and saveInFile func: from LonelyTwitter https://github.com/joshua2ua/lonelyTwitter Joshua Charles Campbell
 
